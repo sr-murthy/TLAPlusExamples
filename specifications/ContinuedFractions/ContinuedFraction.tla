@@ -1,14 +1,13 @@
 ------------------------- MODULE ContinuedFraction -------------------------
 
-(***************************************************************************)
-(* The core algorithm to compute the unique, simple continued fraction of  *)
-(* a rational number.                                                      *)
-(***************************************************************************)
-
-=============================================================================
-\* AUTHOR: Sandeep R. Murthy
-\* EMAIL:  srm@tuta.com
-\* DATE:   03.10.2026
+(**************************************************************************)
+(* The core algorithm to compute the unique, simple continued fraction of *)
+(* a rational number.                                                     *)
+(*                                                                        *)
+(* AUTHOR: Sandeep R. Murthy                                              *)
+(* EMAIL:  srm@tuta.com                                                   *)
+(* DATE:   03.10.2026                                                     *)
+(**************************************************************************)
 
 EXTENDS Integers, Sequences
 
@@ -16,7 +15,8 @@ VARIABLES x, y, coeffs
 
 \* Type invariant to ensure that the numerator and denominator are
 \* integers, and that in particular the denominator is non-zero.
-TypeOK == /\ x \in Int
+TypeOK ==
+          /\ x \in Int
           /\ y \in Int \ {0}
 
 \* Initial state - check the type invariant is satisfied and that
@@ -36,12 +36,11 @@ Init ==
 \*         (coeffs); 
 EuclideanDivision ==
     /\ y # 0
-    /\ \E quo, rem \in Int :
-        /\ quo = x \div y
-        /\ rem = x \mod y
-        /\ x' = y
-        /\ y' = rem
-        /\ coeffs' = Append(coeffs, quo)
+    /\ \E quo, rem \in Int : /\ quo = x \div y
+                             /\ rem = x % y
+                             /\ x' = y
+                             /\ y' = rem
+                             /\ coeffs' = Append(coeffs, quo)
 
 \* Terminate when the current-state denominator (y), which is the current-state
 \* division remainder, is 0.
@@ -60,8 +59,4 @@ Spec ==
 AlwaysTerminates ==
     <> (y = 0)
 
-=============================================================================
-
-
-
-
+============================================================================
